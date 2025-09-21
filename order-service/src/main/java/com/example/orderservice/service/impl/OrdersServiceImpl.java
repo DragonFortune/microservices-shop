@@ -5,10 +5,12 @@ import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
 import com.example.orderservice.repository.OrdersRepository;
 import com.example.orderservice.service.OrdersService;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,5 +25,11 @@ public class OrdersServiceImpl implements OrdersService {
         Order order = orderMapper.toEntity(dto);
         order.getItems().forEach(item -> item.setOrder(order));
         return ordersRepository.save(order).getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> getAllOrders() {
+        return ordersRepository.findAll();
     }
 }

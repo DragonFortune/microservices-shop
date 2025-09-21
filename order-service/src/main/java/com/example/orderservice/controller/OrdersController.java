@@ -1,14 +1,14 @@
 package com.example.orderservice.controller;
 
 import com.example.orderservice.dto.OrderRequestDto;
+import com.example.orderservice.model.Order;
 import com.example.orderservice.service.OrdersService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,5 +21,10 @@ public class OrdersController {
     @PostMapping()
     public UUID createOrder(@RequestBody @Valid OrderRequestDto dto) {
         return ordersService.createOrder(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(ordersService.getAllOrders());
     }
 }
