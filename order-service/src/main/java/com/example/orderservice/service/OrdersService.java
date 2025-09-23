@@ -10,4 +10,5 @@ public interface OrdersService {
 
     UUID createOrder(OrderRequestDto dto);
     List<Order> getAllOrders();
+    boolean deleteOrder(UUID orderId);
 }

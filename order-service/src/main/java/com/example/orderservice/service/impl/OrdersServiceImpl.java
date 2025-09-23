@@ -32,4 +32,14 @@ public class OrdersServiceImpl implements OrdersService {
     public List<Order> getAllOrders() {
         return ordersRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public boolean deleteOrder(UUID orderId) {
+        if (!ordersRepository.existsById(orderId)) {
+            return false;
+        }
+        ordersRepository.deleteById(orderId);
+        return true;
+    }
 }

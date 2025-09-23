@@ -27,4 +27,13 @@ public class OrdersController {
     public ResponseEntity<List<Order>> getAllOrders() {
         return ResponseEntity.ok(ordersService.getAllOrders());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOrder(@PathVariable UUID id) {
+        if (ordersService.deleteOrder(id)) {
+            return  ResponseEntity.ok("Order deleted successfully");
+        } else {
+            return ResponseEntity.ok("Order not found");
+        }
+    }
 }
