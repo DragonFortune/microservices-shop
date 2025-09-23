@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,7 +67,27 @@ public class OrdersControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(orderId.toString()));
+                .andExpect(content().string("\"" + orderId.toString() + "\""));
+    }
+
+    @Test
+    void deleteOrder_success() throws Exception {
+        orderId = UUID.randomUUID();
+        when(ordersService.deleteOrder(orderId)).thenReturn(true);
+
+        mockMvc.perform(delete("/api/v1/orders/{id}", orderId))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Order deleted successfully"));
+    }
+
+    @Test
+    void deleteOrder_notFound() throws Exception {
+        orderId = UUID.randomUUID();
+        when(ordersService.deleteOrder(orderId)).thenReturn(false);
+
+        mockMvc.perform(delete("/api/v1/orders/{id}", orderId))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Order not found"));
     }
 }
 
