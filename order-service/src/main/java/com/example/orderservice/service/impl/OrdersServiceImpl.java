@@ -1,11 +1,13 @@
 package com.example.orderservice.service.impl;
 
 import com.example.orderservice.dto.OrderRequestDto;
+import com.example.orderservice.dto.OrderResponseDto;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
 import com.example.orderservice.repository.OrdersRepository;
 import com.example.orderservice.service.OrdersService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +33,22 @@ public class OrdersServiceImpl implements OrdersService {
     @Transactional(readOnly = true)
     public List<Order> getAllOrders() {
         return ordersRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteOrder(UUID orderId) {
+        if (!ordersRepository.existsById(orderId)) {
+            return false;
+        }
+        ordersRepository.deleteById(orderId);
+        return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderResponseDto getOrder(UUID orderId) {
+        Order order = ordersRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        return orderMapper.toDto(order);
     }
 }
