@@ -1,6 +1,8 @@
 package com.example.orderservice.controller;
 
 import com.example.orderservice.dto.OrderRequestDto;
+import com.example.orderservice.dto.OrderResponseDto;
+import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
 import com.example.orderservice.service.OrdersService;
 import jakarta.validation.Valid;
@@ -35,5 +37,10 @@ public class OrdersController {
         } else {
             return ResponseEntity.ok("Order not found");
         }
+    }
+
+    @GetMapping("/{id}")
+    public OrderResponseDto getOrder(@PathVariable("id") UUID orderId) {
+        return ordersService.getOrder(orderId);
     }
 }
