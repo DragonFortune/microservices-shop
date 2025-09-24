@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class TestDataFactory {
 
-    private static final UUID CUSTOMER_ID = UUID.fromString("b1b6c6c2-3f7b-4e44-9c1a-d0c62a3d4aef");
+    public static final UUID CUSTOMER_ID = UUID.fromString("b1b6c6c2-3f7b-4e44-9c1a-d0c62a3d4aef");
 
     public static OrderRequestDto createOrderRequestDto() {
         OrderRequestDto.OrderItemDto item1 = OrderRequestDto.OrderItemDto.builder()

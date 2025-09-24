@@ -33,15 +33,15 @@ public class OrderServiceTest {
 
     private OrderRequestDto requestDto;
     private Order order;
-    private UUID orderId;
 
     @BeforeEach
     void setUp() {
         requestDto = TestDataFactory.createOrderRequestDto();
+        order = TestDataFactory.createOrderEntity();
     }
 
     @Test
-    void createOrder_ShouldSaveOrderAndReturnId() {
+    void createOrder_success() {
         // given
         when(orderMapper.toEntity(requestDto)).thenReturn(order);
         when(ordersRepository.save(order)).thenReturn(order);
@@ -50,7 +50,7 @@ public class OrderServiceTest {
         UUID result = ordersService.createOrder(requestDto);
 
         // then
-        assertEquals(orderId, result);
+        assertEquals(order.getId(), result);
         verify(orderMapper).toEntity(requestDto);
         verify(ordersRepository).save(order);
 
