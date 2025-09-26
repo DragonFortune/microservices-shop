@@ -4,6 +4,7 @@ import com.example.orderservice.dto.OrderRequestDto;
 import com.example.orderservice.dto.OrderResponseDto;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
+import com.example.orderservice.model.OrderStatus;
 import com.example.orderservice.repository.OrdersRepository;
 import com.example.orderservice.service.OrdersService;
 
@@ -48,7 +49,16 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     @Transactional(readOnly = true)
     public OrderResponseDto getOrder(UUID orderId) {
-        Order order = ordersRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        Order order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
         return orderMapper.toDto(order);
+    }
+
+    @Override
+    public void changeOrderStatus(UUID orderId, OrderStatus status) {
+        Order order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        order.setStatus(status);
+        ordersRepository.save(order);
     }
 }

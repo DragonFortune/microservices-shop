@@ -4,6 +4,7 @@ import com.example.orderservice.dto.OrderRequestDto;
 import com.example.orderservice.dto.OrderResponseDto;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
+import com.example.orderservice.model.OrderStatus;
 import com.example.orderservice.service.OrdersService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,14 @@ public class OrdersController {
     @GetMapping("/{id}")
     public OrderResponseDto getOrder(@PathVariable("id") UUID orderId) {
         return ordersService.getOrder(orderId);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> changeOrderStatus(
+            @PathVariable("id") UUID orderId,
+            @RequestParam("status")OrderStatus status
+            ) {
+        ordersService.changeOrderStatus(orderId, status);
+        return ResponseEntity.noContent().build();
     }
 }
