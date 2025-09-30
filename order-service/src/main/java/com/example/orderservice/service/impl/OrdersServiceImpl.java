@@ -2,13 +2,13 @@ package com.example.orderservice.service.impl;
 
 import com.example.orderservice.dto.OrderRequestDto;
 import com.example.orderservice.dto.OrderResponseDto;
+import com.example.orderservice.exception.types.NotFoundException;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
 import com.example.orderservice.model.OrderStatus;
 import com.example.orderservice.repository.OrdersRepository;
 import com.example.orderservice.service.OrdersService;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +32,10 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Order> getAllOrders() {
-        return ordersRepository.findAll();
+    public List<OrderResponseDto> getAllOrders() {
+        return ordersRepository.findAll().stream()
+                .map(orderMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -50,14 +52,14 @@ public class OrdersServiceImpl implements OrdersService {
     @Transactional(readOnly = true)
     public OrderResponseDto getOrder(UUID orderId) {
         Order order = ordersRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+                .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
         return orderMapper.toDto(order);
     }
 
     @Override
     public void changeOrderStatus(UUID orderId, OrderStatus status) {
         Order order = ordersRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+                .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
         order.setStatus(status);
         ordersRepository.save(order);
     }

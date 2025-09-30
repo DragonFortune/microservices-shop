@@ -45,7 +45,7 @@ public class ErrorHandlerAdvice {
     }
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(ConflictException.class)
+    @ExceptionHandler(Exception.class)
     public ErrorResponse handleGenericException(Exception exception) {
         log.error("500 {}", exception.getMessage(), exception);
         return ErrorResponse.builder()
