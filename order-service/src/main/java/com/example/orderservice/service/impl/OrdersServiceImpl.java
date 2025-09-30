@@ -2,6 +2,7 @@ package com.example.orderservice.service.impl;
 
 import com.example.orderservice.dto.OrderRequestDto;
 import com.example.orderservice.dto.OrderResponseDto;
+import com.example.orderservice.exception.types.ConflictException;
 import com.example.orderservice.exception.types.NotFoundException;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.model.Order;
@@ -27,6 +28,7 @@ public class OrdersServiceImpl implements OrdersService {
     public UUID createOrder(OrderRequestDto dto) {
         Order order = orderMapper.toEntity(dto);
         order.getItems().forEach(item -> item.setOrder(order));
+        order.setStatus(OrderStatus.CREATED);
         return ordersRepository.save(order).getId();
     }
 
@@ -57,10 +59,27 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public void changeOrderStatus(UUID orderId, OrderStatus status) {
+    public void changeOrderStatus(UUID orderId, OrderStatus newStatus) {
         Order order = ordersRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
-        order.setStatus(status);
+
+        OrderStatus currentStatus = order.getStatus();
+
+        if (!isValidStatus(currentStatus, newStatus)) {
+            throw new ConflictException(
+                    "Invalid status transition " + currentStatus + " -> " + newStatus
+            );
+        }
+
+        order.setStatus(newStatus);
         ordersRepository.save(order);
+    }
+
+    private boolean isValidStatus(OrderStatus current, OrderStatus next) {
+        return switch (current) {
+            case CREATED -> (next == OrderStatus.PAID || next == OrderStatus.CANCELLED);
+            case PAID -> next == OrderStatus.SHIPPED;
+            default -> false;
+        };
     }
 }
