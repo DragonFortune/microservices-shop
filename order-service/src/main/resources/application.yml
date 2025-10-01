@@ -12,3 +12,10 @@ spring:
     properties:
       hibernate:
         format_sql: true  # красивый вывод SQL
+
+logging:
+  level:
+    root: INFO
+    com.example.orderservice: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
