@@ -6,7 +6,6 @@ import com.example.orderservice.model.Order;
 import com.example.orderservice.model.OrderItem;
 import com.example.orderservice.model.OrderStatus;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

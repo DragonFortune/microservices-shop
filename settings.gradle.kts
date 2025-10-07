@@ -8,3 +8,4 @@ pluginManagement{
 rootProject.name = "microservices-shop"
 include("order-service")
 include("payment-service")
+include("product-service")

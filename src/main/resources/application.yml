@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shop
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # автоматически создаёт таблицы по сущностям
+    show-sql: true        # лог SQL-запросов в консоли
+    properties:
+      hibernate:
+        format_sql: true  # красивый вывод SQL
+
+logging:
+  level:
+    root: INFO
+    com.example.orderservice: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
