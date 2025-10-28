@@ -36,6 +36,8 @@ dependencies {
     // PostgreSQL
     runtimeOnly("org.postgresql:postgresql")
 
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
     // Тесты
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
