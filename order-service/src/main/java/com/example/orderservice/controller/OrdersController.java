@@ -4,6 +4,7 @@ import com.example.orderservice.dto.OrderRequestDto;
 import com.example.orderservice.dto.OrderResponseDto;
 import com.example.orderservice.model.OrderStatus;
 import com.example.orderservice.service.OrdersService;
+import com.example.orderservice.util.CounterMetric;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,12 @@ public class OrdersController {
 
     private final OrdersService ordersService;
 
-    @PostMapping()
+    @PostMapping
     public UUID createOrder(@RequestBody @Valid OrderRequestDto dto) {
         return ordersService.createOrder(dto);
     }
 
+    @CounterMetric(name = "orders", tags = {"endpoint", "getAll"})
     @GetMapping
     public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
         return ResponseEntity.ok(ordersService.getAllOrders());
@@ -39,6 +41,7 @@ public class OrdersController {
     }
 
     @GetMapping("/{id}")
+    @CounterMetric(name = "orders", tags = {"endpoint", "getById"})
     public OrderResponseDto getOrder(@PathVariable("id") UUID orderId) {
         return ordersService.getOrder(orderId);
     }
