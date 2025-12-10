@@ -10,3 +10,4 @@ include("order-service")
 include("payment-service")
 
 include("eureka-server")
+include("gateway-service")
