@@ -2,6 +2,8 @@ plugins {
     id("java")
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.3"
+
+    id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
 }
 
 group = "org.example"
@@ -22,6 +24,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+
+    // OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
     // Kafka
     implementation("org.springframework.kafka:spring-kafka")
