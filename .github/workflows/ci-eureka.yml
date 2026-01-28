@@ -2,13 +2,9 @@ name: 🧪 Build & Test Eureka Server
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'eureka-server/**'
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
-    paths:
-      - 'eureka-server/**'
+    branches: [ master ]
 
 jobs:
   build:
