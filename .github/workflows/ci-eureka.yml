@@ -2,11 +2,11 @@ name: 🧪 Build & Test Eureka Server
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'eureka-server/**'
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'eureka-server/**'
 

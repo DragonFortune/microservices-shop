@@ -2,11 +2,11 @@ name: 🧪 Build & Test API Gateway
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'gateway-service/**'
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'gateway-service/**'
 
