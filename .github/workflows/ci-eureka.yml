@@ -1,14 +1,14 @@
-name: 🧪 Build & Test API Gateway
+name: 🧪 Build & Test Eureka Server
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'gateway-service/**'
+      - 'eureka-server/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'gateway-service/**'
+      - 'eureka-server/**'
 
 jobs:
   build:
@@ -27,14 +27,14 @@ jobs:
       - name: 💡 Make gradlew executable
         run: chmod +x gradlew
 
-      - name: 🧱 Build API Gateway
-        run: ./gradlew :api-gateway:build --stacktrace
+      - name: 🧱 Build Eureka Server
+        run: ./gradlew :eureka-server:build --stacktrace
 
-      - name: 🧪 Run API Gateway tests
-        run: ./gradlew :api-gateway:test
+      - name: 🧪 Run Eureka Server tests
+        run: ./gradlew :eureka-server:test
 
-      - name: 📦 Upload API Gateway artifact
+      - name: 📦 Upload Eureka Server artifact
         uses: actions/upload-artifact@v4
         with:
-          name: api-gateway-jar
-          path: api-gateway/build/libs/*.jar
+          name: eureka-server-jar
+          path: eureka-server/build/libs/*.jar
