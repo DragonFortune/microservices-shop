@@ -24,13 +24,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: 🧱 Build API Gateway
-        run: ./gradlew :api-gateway:build --stacktrace
+        run: ./gradlew :gateway-service:build --stacktrace
 
       - name: 🧪 Run API Gateway tests
-        run: ./gradlew :api-gateway:test
+        run: ./gradlew :gateway-service:test --stacktrace
 
       - name: 📦 Upload API Gateway artifact
         uses: actions/upload-artifact@v4
         with:
           name: api-gateway-jar
-          path: api-gateway/build/libs/*.jar
+          path: gateway-service/build/libs/*.jar
